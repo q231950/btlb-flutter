@@ -4,12 +4,6 @@ import 'navigation_provider.dart';
 import '../blocs/navigation_bloc.dart';
 
 class BTLBBottomNavigationBar extends StatefulWidget {
-  BTLBBottomNavigationBar({Key key, List<Widget> children})
-      : children = children ?? [],
-        super(key: key);
-
-  final List<Widget> children;
-  
   @override
   _BTLBBottomNavigationBarState createState() =>
       _BTLBBottomNavigationBarState();
@@ -32,6 +26,7 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
     NavigationBloc navigationBloc = NavigationProvider.of(context);
     return StreamBuilder<int>(
       stream: navigationBloc.selectedIndex,
+      initialData: 0,
       builder: (context, snapshot) => BottomNavigationBar(
             currentIndex: snapshot.data,
             items: items,
