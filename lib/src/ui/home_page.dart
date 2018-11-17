@@ -3,6 +3,7 @@ import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
 import 'navigation_provider.dart';
 import 'accounts_page.dart';
+import 'bloc_account_page.dart';
 import 'settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -27,6 +28,14 @@ class _HomePageState extends State<HomePage> {
               stream: _navigationBloc.selectedTitle,
               builder: (context, snapshot) => Text(snapshot.data),
             ),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.person_add),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(BlocAccountPage.routeName);
+                },
+              )
+            ],
           ),
           body: StreamBuilder<Widget>(
             stream: _navigationBloc.selectedWidget,
