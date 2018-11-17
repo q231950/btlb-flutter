@@ -13,7 +13,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static final widgets = [AccountsPage(), SettingsPage()];
-  final NavigationBloc _navigationBloc = NavigationBloc(selectedIndex: 1, widgets: widgets);
+  static final titles = ["Accounts", "Settings"];
+  final NavigationBloc _navigationBloc =
+      NavigationBloc(selectedIndex: 1, widgets: widgets, titles: titles);
 
   @override
   Widget build(BuildContext context) {
@@ -21,16 +23,20 @@ class _HomePageState extends State<HomePage> {
         navigationBloc: _navigationBloc,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('BTLB'),
+            title: StreamBuilder<String>(
+              stream: _navigationBloc.selectedTitle,
+              builder: (context, snapshot) => Text(snapshot.data),
+            ),
           ),
           body: StreamBuilder<Widget>(
             stream: _navigationBloc.selectedWidget,
-            builder: (context, snapshot) => Center(child: snapshot.data,),
+            builder: (context, snapshot) => Center(
+                  child: snapshot.data,
+                ),
           ),
           bottomNavigationBar: StreamBuilder<int>(
             stream: _navigationBloc.selectedIndex,
-            builder: (context, snapshot) =>
-                BTLBBottomNavigationBar(),
+            builder: (context, snapshot) => BTLBBottomNavigationBar(),
           ),
         ));
   }

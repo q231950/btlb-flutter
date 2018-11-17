@@ -13,11 +13,11 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
   final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       title: Text('Accounts'),
-      icon: Icon(Icons.home),
+      icon: Icon(Icons.supervised_user_circle),
     ),
     BottomNavigationBarItem(
       title: Text('Settings'),
-      icon: Icon(Icons.home),
+      icon: Icon(Icons.settings),
     ),
   ];
 
@@ -31,7 +31,7 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
             currentIndex: snapshot.data,
             items: items,
             onTap: (selectedIndex) => _onTabTapped(selectedIndex, context),
-    ),
+          ),
     );
   }
 
