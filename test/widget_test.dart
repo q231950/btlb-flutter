@@ -15,16 +15,16 @@ void main() {
     // Build our app and trigger a frame.
     await tester.pumpWidget(App());
 
-    // Verify that our counter starts at 0.
+    // Verify that we are on the accounts screen and see the Settings bottom navigation entry.
     expect(find.text('Accounts'), findsOneWidget);
-    expect(find.text('Settings'), findsNothing);
+    expect(find.text('Settings'), findsOneWidget);
 
     // Tap the '+' icon and trigger a frame.
     await tester.tap(find.byIcon(Icons.settings));
     await tester.pump();
 
     // Verify that our counter has incremented.
-    expect(find.text('Accounts'), findsNothing);
-    expect(find.text('Settings'), findsOneWidget);
+    expect(find.text('Accounts'), findsOneWidget);
+    expect(find.text('Settings'), findsNWidgets(3));
   });
 }
