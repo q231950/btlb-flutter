@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
   static final widgets = [AccountsPage(), SettingsPage()];
   static final titles = ["Accounts", "Settings"];
   final NavigationBloc _navigationBloc =
-      NavigationBloc(selectedIndex: 1, widgets: widgets, titles: titles);
+      NavigationBloc(selectedIndex: 0, widgets: widgets, titles: titles);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: StreamBuilder<String>(
               stream: _navigationBloc.selectedTitle,
+              initialData: '',
               builder: (context, snapshot) => Text(snapshot.data),
             ),
             actions: <Widget>[

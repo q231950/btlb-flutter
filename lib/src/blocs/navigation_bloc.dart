@@ -21,9 +21,9 @@ class NavigationBloc {
   final List<Widget> _widgets;
   final List<String> _titles;
 
-  Observable<int> get selectedIndex => _selectedIndex.distinct();
-  Observable<Widget> get selectedWidget => _selectedWidget.distinct();
-  Observable<String> get selectedTitle => _selectedTitle.distinct();
+  Observable<int> get selectedIndex => _selectedIndex.distinctUnique();
+  Observable<Widget> get selectedWidget => _selectedWidget.distinctUnique();
+  Observable<String> get selectedTitle => _selectedTitle.distinctUnique();
 
   void setSelectedIndex(int index) {
     _selectedIndex.add(index);
