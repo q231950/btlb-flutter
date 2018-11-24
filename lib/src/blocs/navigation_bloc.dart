@@ -18,11 +18,12 @@ class NavigationBloc {
   static BehaviorSubject<int> _selectedIndex;
   static BehaviorSubject<Widget> _selectedWidget;
   static BehaviorSubject<String> _selectedTitle;
+
   final List<Widget> _widgets;
   final List<String> _titles;
 
-  Observable<int> get selectedIndex => _selectedIndex.distinctUnique();
-  Observable<Widget> get selectedWidget => _selectedWidget.distinctUnique();
+  Observable<int> get selectedIndex => _selectedIndex.distinct();
+  Observable<Widget> get selectedWidget => _selectedWidget.distinct();
   Observable<String> get selectedTitle => _selectedTitle.distinctUnique();
 
   void setSelectedIndex(int index) {
