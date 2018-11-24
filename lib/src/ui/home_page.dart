@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
+import '../blocs/settings_bloc.dart';
 import 'navigation_provider.dart';
 import 'accounts_page.dart';
 import 'bloc_account_page.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final widgets = <TitledPage>[AccountsPage(), SettingsPage()];
+  static final widgets = <TitledPage>[AccountsPage(), SettingsPage(bloc: SettingsBloc())];
   final NavigationBloc _navigationBloc =
       NavigationBloc(selectedIndex: 0, widgets: widgets);
 
