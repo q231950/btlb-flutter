@@ -1,36 +1,27 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter/widgets.dart';
+import '../mixins/titled_page_mixin.dart';
 
 class NavigationBloc {
   NavigationBloc({
     int selectedIndex,
-    List<String> titles,
-    List<Widget> widgets,
-  }) : _widgets = widgets ?? [], 
-  _titles = titles ?? [] {
+    List<TitledPage> widgets,
+  }) : _widgets = widgets ?? [] {
     _selectedIndex = BehaviorSubject<int>(seedValue: selectedIndex);
-    _selectedWidget = BehaviorSubject<Widget>(seedValue: _emptyWidget());
-    _selectedTitle = BehaviorSubject<String>(seedValue: '');
+    _selectedWidget = BehaviorSubject<TitledPage>();
 
     setSelectedIndex(selectedIndex);
   }
 
   static BehaviorSubject<int> _selectedIndex;
-  static BehaviorSubject<Widget> _selectedWidget;
-  static BehaviorSubject<String> _selectedTitle;
+  static BehaviorSubject<TitledPage> _selectedWidget;
 
-  final List<Widget> _widgets;
-  final List<String> _titles;
+  final List<TitledPage> _widgets;
 
   Observable<int> get selectedIndex => _selectedIndex.distinct();
-  Observable<Widget> get selectedWidget => _selectedWidget.distinct();
-  Observable<String> get selectedTitle => _selectedTitle.distinctUnique();
+  Observable<TitledPage> get selectedWidget => _selectedWidget.distinct();
 
   void setSelectedIndex(int index) {
     _selectedIndex.add(index);
     _selectedWidget.add(_widgets[index]);
-    _selectedTitle.add(_titles[index]);
   }
-
-  Widget _emptyWidget() => Text('nothing to see here');
 }

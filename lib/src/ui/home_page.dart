@@ -5,6 +5,7 @@ import 'navigation_provider.dart';
 import 'accounts_page.dart';
 import 'bloc_account_page.dart';
 import 'settings_page.dart';
+import '../mixins/titled_page_mixin.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -13,10 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final widgets = [AccountsPage(), SettingsPage()];
-  static final titles = ["Accounts", "Settings"];
+  static final widgets = <TitledPage>[AccountsPage(), SettingsPage()];
   final NavigationBloc _navigationBloc =
-      NavigationBloc(selectedIndex: 0, widgets: widgets, titles: titles);
+      NavigationBloc(selectedIndex: 0, widgets: widgets);
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +24,9 @@ class _HomePageState extends State<HomePage> {
         navigationBloc: _navigationBloc,
         child: Scaffold(
           appBar: AppBar(
-            title: StreamBuilder<String>(
-              stream: _navigationBloc.selectedTitle,
-              initialData: '',
-              builder: (context, snapshot) => Text(snapshot.data),
+            title: StreamBuilder<TitledPage>(
+              stream: _navigationBloc.selectedWidget,
+              builder: (context, snapshot) => Text(snapshot.data.title),
             ),
             actions: <Widget>[
               IconButton(
@@ -38,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          body: StreamBuilder<Widget>(
+          body: StreamBuilder<TitledPage>(
             stream: _navigationBloc.selectedWidget,
             builder: (context, snapshot) => Center(
                   child: snapshot.data,
