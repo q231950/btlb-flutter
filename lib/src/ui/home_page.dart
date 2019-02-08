@@ -4,7 +4,7 @@ import '../blocs/navigation_bloc.dart';
 import '../blocs/settings_bloc.dart';
 import 'navigation_provider.dart';
 import 'accounts_page.dart';
-import 'bloc_account_page.dart';
+import 'account_page.dart';
 import 'settings_page.dart';
 import '../mixins/titled_page_mixin.dart';
 
@@ -16,7 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static final widgets = <TitledPage>[AccountsPage(), SettingsPage(bloc: SettingsBloc())];
-  final NavigationBloc _navigationBloc =
+  static final NavigationBloc _navigationBloc =
       NavigationBloc(selectedIndex: 0, widgets: widgets);
 
   @override
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               IconButton(
                 icon: Icon(Icons.person_add),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(BlocAccountPage.routeName);
+                  Navigator.of(context).pushNamed(AccountPage.routeName);
                 },
               )
             ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'ui/home_page.dart';
-import 'ui/bloc_account_page.dart';
+import 'ui/account_page.dart';
 
 class App extends StatelessWidget {
   @override
@@ -8,7 +8,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.dark(),
       home: HomePage(),
-      routes: {BlocAccountPage.routeName: (context) => BlocAccountPage()},
+      routes: { AccountPage.routeName: (context) => AccountPage() },
     );
   }
 }
