@@ -14,11 +14,14 @@ class SettingsPage extends StatelessWidget with TitledPage {
     return StreamBuilder<Settings>(
       stream: bloc.settings,
       builder: (context, snapshot) {
-        return Column(
+        switch (snapshot.connectionState) {
+          case ConnectionState.active: return Column(
           children: <Widget>[
             themeWidget(snapshot.data)
           ],
         );
+        default: return Container();
+        }
       },
       );
   }

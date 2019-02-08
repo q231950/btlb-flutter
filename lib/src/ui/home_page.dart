@@ -27,7 +27,12 @@ class _HomePageState extends State<HomePage> {
           appBar: AppBar(
             title: StreamBuilder<TitledPage>(
               stream: _navigationBloc.selectedWidget,
-              builder: (context, snapshot) => Text(snapshot.data.title),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.active: return Text(snapshot.data.title);
+                  default: return Container();
+                }
+              },
             ),
             actions: <Widget>[
               IconButton(
@@ -40,13 +45,23 @@ class _HomePageState extends State<HomePage> {
           ),
           body: StreamBuilder<TitledPage>(
             stream: _navigationBloc.selectedWidget,
-            builder: (context, snapshot) => Center(
+            builder: (context, snapshot) {
+              switch(snapshot.connectionState) {
+                case ConnectionState.active: return Center(
                   child: snapshot.data,
-                ),
+                );
+                default: return Container();
+              }
+            },
           ),
           bottomNavigationBar: StreamBuilder<int>(
             stream: _navigationBloc.selectedIndex,
-            builder: (context, snapshot) => BTLBBottomNavigationBar(),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.active: return BTLBBottomNavigationBar();
+                default: return Container();
+              }
+            },
           ),
         ));
   }
