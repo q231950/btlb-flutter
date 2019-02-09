@@ -25,8 +25,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return NavigationProvider(
-        navigationBloc: _navigationBloc,
-        child: Scaffold(
+      navigationBloc: _navigationBloc,
+      child: Scaffold(
           appBar: AppBar(
             title: StreamBuilder<TitledPage>(
               stream: _navigationBloc.selectedWidget,
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
               )
             ],
           ),
-          body: StreamBuilder<TitledPage>(
+          body: StreamBuilder<Widget>(
             stream: _navigationBloc.selectedWidget,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
@@ -61,17 +61,7 @@ class _HomePageState extends State<HomePage> {
               }
             },
           ),
-          bottomNavigationBar: StreamBuilder<int>(
-            stream: _navigationBloc.selectedIndex,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.active:
-                  return BTLBBottomNavigationBar();
-                default:
-                  return Container();
-              }
-            },
-          ),
-        ));
+          bottomNavigationBar: BTLBBottomNavigationBar()),
+    );
   }
 }

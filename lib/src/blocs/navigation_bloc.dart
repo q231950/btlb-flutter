@@ -7,21 +7,22 @@ class NavigationBloc {
     List<TitledPage> widgets,
   }) : _widgets = widgets ?? [] {
     _selectedIndex = BehaviorSubject<int>(seedValue: selectedIndex);
-    _selectedWidget = BehaviorSubject<TitledPage>();
+    _selectedNavigationItem = BehaviorSubject<TitledPage>();
 
     setSelectedIndex(selectedIndex);
   }
 
   static BehaviorSubject<int> _selectedIndex;
-  static BehaviorSubject<TitledPage> _selectedWidget;
+  static BehaviorSubject<TitledPage> _selectedNavigationItem;
 
   final List<TitledPage> _widgets;
 
   Observable<int> get selectedIndex => _selectedIndex.distinct();
-  Observable<TitledPage> get selectedWidget => _selectedWidget.distinct();
+  Observable<TitledPage> get selectedWidget =>
+      _selectedNavigationItem.distinct();
 
   void setSelectedIndex(int index) {
     _selectedIndex.add(index);
-    _selectedWidget.add(_widgets[index]);
+    _selectedNavigationItem.add(_widgets[index]);
   }
 }

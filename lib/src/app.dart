@@ -8,7 +8,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData.light(),
       home: HomePage(),
-      routes: { AccountPage.routeName: (context) => AccountPage() },
+      routes: {AccountPage.routeName: (context) => AccountPage()},
     );
   }
 }
