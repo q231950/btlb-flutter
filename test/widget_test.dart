@@ -11,20 +11,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:btlb_flutter/src/app.dart';
 
 void main() {
-  testWidgets('Tap selects Settings smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(App());
+  group('Test App Widget', () {
+    testWidgets('has Accounts as initial page', (WidgetTester tester) async {
+      await tester.pumpWidget(App());
+      await tester.pump(Duration.zero);
 
-    // Verify that we are on the accounts screen and see the Settings bottom navigation entry.
-    expect(find.text('Accounts'), findsOneWidget);
-    expect(find.text('Settings'), findsOneWidget);
+      expect(find.text('Accounts'), findsNWidgets(3));
+      expect(find.text('Settings'), findsOneWidget);
+    });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.settings));
-    await tester.pump();
+    testWidgets('Tap selects Settings', (WidgetTester tester) async {
+      await tester.pumpWidget(App());
+      await tester.pump(Duration.zero);
 
-    // Verify that our counter has incremented.
-    expect(find.text('Accounts'), findsOneWidget);
-    expect(find.text('Settings'), findsNWidgets(3));
+      await tester.tap(find.byIcon(Icons.settings));
+      await tester.pump();
+
+      expect(find.text('Accounts'), findsOneWidget);
+      expect(find.text('Settings'), findsNWidgets(2));
+    });
   });
 }

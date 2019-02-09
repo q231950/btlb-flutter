@@ -15,7 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final widgets = <TitledPage>[AccountsPage(), SettingsPage(bloc: SettingsBloc())];
+  static final widgets = <TitledPage>[
+    AccountsPage(),
+    SettingsPage(bloc: SettingsBloc())
+  ];
   static final NavigationBloc _navigationBloc =
       NavigationBloc(selectedIndex: 0, widgets: widgets);
 
@@ -29,8 +32,10 @@ class _HomePageState extends State<HomePage> {
               stream: _navigationBloc.selectedWidget,
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
-                  case ConnectionState.active: return Text(snapshot.data.title);
-                  default: return Container();
+                  case ConnectionState.active:
+                    return Text(snapshot.data.title);
+                  default:
+                    return Container();
                 }
               },
             ),
@@ -46,11 +51,13 @@ class _HomePageState extends State<HomePage> {
           body: StreamBuilder<TitledPage>(
             stream: _navigationBloc.selectedWidget,
             builder: (context, snapshot) {
-              switch(snapshot.connectionState) {
-                case ConnectionState.active: return Center(
-                  child: snapshot.data,
-                );
-                default: return Container();
+              switch (snapshot.connectionState) {
+                case ConnectionState.active:
+                  return Center(
+                    child: snapshot.data,
+                  );
+                default:
+                  return Container();
               }
             },
           ),
@@ -58,8 +65,10 @@ class _HomePageState extends State<HomePage> {
             stream: _navigationBloc.selectedIndex,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
-                case ConnectionState.active: return BTLBBottomNavigationBar();
-                default: return Container();
+                case ConnectionState.active:
+                  return BTLBBottomNavigationBar();
+                default:
+                  return Container();
               }
             },
           ),
