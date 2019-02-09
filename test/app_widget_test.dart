@@ -4,8 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:btlb_flutter/src/app.dart';
 
 void main() {
-  group('Test App Widget', () {
-    testWidgets('has Accounts as initial page', (WidgetTester tester) async {
+  group('App widget', () {
+    testWidgets('has accounts page as initial page',
+        (WidgetTester tester) async {
       await tester.pumpWidget(App());
       await tester.pump(Duration.zero);
 
@@ -13,7 +14,7 @@ void main() {
       expect(find.text('Settings'), findsOneWidget);
     });
 
-    testWidgets('Tap selects Settings', (WidgetTester tester) async {
+    testWidgets('tap selects settings page', (WidgetTester tester) async {
       await tester.pumpWidget(App());
       await tester.pump(Duration.zero);
 
