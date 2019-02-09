@@ -12,13 +12,8 @@ class BTLBBottomNavigationBar extends StatefulWidget {
 class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
   final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
-      title: Text('Accounts'),
-      icon: Icon(Icons.supervised_user_circle),
-    ),
-    BottomNavigationBarItem(
-      title: Text('Settings'),
-      icon: Icon(Icons.settings),
-    ),
+        title: Text('Accounts'), icon: Icon(Icons.supervised_user_circle)),
+    BottomNavigationBarItem(title: Text('Settings'), icon: Icon(Icons.settings))
   ];
 
   @override

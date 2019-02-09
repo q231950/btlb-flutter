@@ -4,9 +4,8 @@ import '../blocs/navigation_bloc.dart';
 import '../blocs/settings_bloc.dart';
 import 'navigation_provider.dart';
 import 'accounts_page.dart';
-import 'account_page.dart';
 import 'settings_page.dart';
-import '../mixins/titled_page_mixin.dart';
+import '../mixins/navigatable_page_mixin.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -15,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final widgets = <TitledPage>[
+  static final widgets = <NavigatablePage>[
     AccountsPage(),
     SettingsPage(bloc: SettingsBloc())
   ];
@@ -27,8 +26,10 @@ class _HomePageState extends State<HomePage> {
     return NavigationProvider(
       navigationBloc: _navigationBloc,
       child: Scaffold(
+          floatingActionButton: floatingActionButton(_navigationBloc),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           appBar: AppBar(
-            title: StreamBuilder<TitledPage>(
+            title: StreamBuilder<NavigatablePage>(
               stream: _navigationBloc.selectedWidget,
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
@@ -39,14 +40,6 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.person_add),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(AccountPage.routeName);
-                },
-              )
-            ],
           ),
           body: StreamBuilder<Widget>(
             stream: _navigationBloc.selectedWidget,
@@ -62,6 +55,20 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           bottomNavigationBar: BTLBBottomNavigationBar()),
+    );
+  }
+
+  Widget floatingActionButton(NavigationBloc bloc) {
+    return StreamBuilder<NavigatablePage>(
+      stream: _navigationBloc.selectedWidget,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return snapshot.data.actionButton;
+          default:
+            return Container();
+        }
+      },
     );
   }
 }
