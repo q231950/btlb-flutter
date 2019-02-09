@@ -10,7 +10,7 @@ void main() {
       await tester.pumpWidget(App());
       await tester.pump(Duration.zero);
 
-      expect(find.text('Accounts'), findsNWidgets(3));
+      expect(find.text('Accounts'), findsNWidgets(2));
       expect(find.text('Settings'), findsOneWidget);
     });
 

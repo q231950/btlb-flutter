@@ -17,6 +17,6 @@ class AccountsPage extends StatelessWidget with NavigatablePage {
 
   @override
   Widget build(BuildContext context) {
-    return Text(title);
+    return Container();
   }
 }

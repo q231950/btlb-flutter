@@ -1,28 +1,36 @@
 import 'package:rxdart/rxdart.dart';
 import '../mixins/navigatable_page_mixin.dart';
 
+/// The [NavigationBloc] governs the main navigation of the app.
 class NavigationBloc {
   NavigationBloc({
     int selectedIndex,
     List<NavigatablePage> widgets,
-  }) : _widgets = widgets ?? [] {
+  }) : _navigatablePages = widgets ?? [] {
     _selectedIndex = BehaviorSubject<int>(seedValue: selectedIndex);
-    _selectedNavigationItem = BehaviorSubject<NavigatablePage>();
+    _selectedNavigatablePage = BehaviorSubject<NavigatablePage>();
 
     setSelectedIndex(selectedIndex);
   }
 
+  /// A [BehaviorSubject] of the selected index.
   static BehaviorSubject<int> _selectedIndex;
-  static BehaviorSubject<NavigatablePage> _selectedNavigationItem;
 
-  final List<NavigatablePage> _widgets;
+  /// A [BehaviorSubject] of the selected [NavigatablePage].
+  static BehaviorSubject<NavigatablePage> _selectedNavigatablePage;
 
+  /// The list of [NavigatablePage] instances available to the app.
+  final List<NavigatablePage> _navigatablePages;
+
+  /// The publicly observable selected index.
   Observable<int> get selectedIndex => _selectedIndex.distinct();
-  Observable<NavigatablePage> get selectedWidget =>
-      _selectedNavigationItem.distinct();
+
+  /// The publicly observable selected [NavigatablePage].
+  Observable<NavigatablePage> get selectedNavigatablePage =>
+      _selectedNavigatablePage.distinct();
 
   void setSelectedIndex(int index) {
     _selectedIndex.add(index);
-    _selectedNavigationItem.add(_widgets[index]);
+    _selectedNavigatablePage.add(_navigatablePages[index]);
   }
 }

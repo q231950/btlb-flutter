@@ -26,11 +26,11 @@ class _HomePageState extends State<HomePage> {
     return NavigationProvider(
       navigationBloc: _navigationBloc,
       child: Scaffold(
-          floatingActionButton: floatingActionButton(_navigationBloc),
+          floatingActionButton: _floatingActionButton(_navigationBloc),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           appBar: AppBar(
             title: StreamBuilder<NavigatablePage>(
-              stream: _navigationBloc.selectedWidget,
+              stream: _navigationBloc.selectedNavigatablePage,
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.active:
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           body: StreamBuilder<Widget>(
-            stream: _navigationBloc.selectedWidget,
+            stream: _navigationBloc.selectedNavigatablePage,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.active:
@@ -58,9 +58,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget floatingActionButton(NavigationBloc bloc) {
+  /// Returns a [FloatingActionButton] for a given [NavigationBloc].
+  Widget _floatingActionButton(NavigationBloc bloc) {
     return StreamBuilder<NavigatablePage>(
-      stream: _navigationBloc.selectedWidget,
+      stream: bloc.selectedNavigatablePage,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
