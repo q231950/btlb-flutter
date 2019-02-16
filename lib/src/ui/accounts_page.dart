@@ -27,15 +27,24 @@ class AccountsPage extends StatefulWidget with NavigatablePage {
 }
 
 class AccountsPageState extends State<AccountsPage> {
-  int _count = 0;
-
   @override
   Widget build(BuildContext context) {
     AccountsBloc bloc = AccountsBlocProvider.of(context);
-    return ListView.builder(
-      itemCount: 3,
-      itemBuilder: (BuildContext context, int index) {
-        return ListTile(title: Text("entry $index"));
+
+    return StreamBuilder<int>(
+      stream: bloc.count,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return ListView.builder(
+              itemCount: snapshot.data,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(title: Text("entry $index"));
+              },
+            );
+          default:
+            return Container();
+        }
       },
     );
   }
