@@ -9,5 +9,5 @@ mixin NavigatablePage on Widget {
   /// You can provide a [FloatingActionButton] in any [NavigatablePage].
   /// If you choose to do so, overwrite this getter. Not overwriting this
   /// method will lead to an empty [Container] as [FloatingActionButton] as a default.
-  Widget get actionButton => Container();
+  Widget actionButton(BuildContext context) => Container();
 }

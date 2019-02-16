@@ -1,10 +1,10 @@
 import 'package:flutter/widgets.dart';
 import '../blocs/navigation_bloc.dart';
 
-class NavigationProvider extends InheritedWidget {
+class NavigationBlocProvider extends InheritedWidget {
   final NavigationBloc navigationBloc;
 
-  NavigationProvider({
+  NavigationBlocProvider({
     Key key,
     NavigationBloc navigationBloc,
     Widget child,
@@ -15,8 +15,8 @@ class NavigationProvider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static NavigationBloc of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(NavigationProvider)
-            as NavigationProvider)
+    return (context.inheritFromWidgetOfExactType(NavigationBlocProvider)
+            as NavigationBlocProvider)
         .navigationBloc;
   }
 }

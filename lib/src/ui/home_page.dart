@@ -1,38 +1,48 @@
+import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/blocs/settings_bloc.dart';
+import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
+import 'package:btlb_flutter/src/ui/accounts_page.dart';
+import 'package:btlb_flutter/src/ui/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
-import 'navigation_provider.dart';
+import 'navigation_bloc_provider.dart';
 import '../mixins/navigatable_page_mixin.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({
-    NavigationBloc navigationBloc,
-  }) : _navigationBloc = navigationBloc ?? NavigationBloc();
+class HomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => HomePageState();
+}
 
-  final NavigationBloc _navigationBloc;
+class HomePageState extends State<HomePage> {
+  HomePageState()
+      : pages = [AccountsPage(), SettingsPage(bloc: SettingsBloc())];
+
+  final List<NavigatablePage> pages;
 
   @override
   Widget build(BuildContext context) {
-    return NavigationProvider(
-      navigationBloc: _navigationBloc,
-      child: Scaffold(
-          appBar: _appBar(_navigationBloc),
-          body: _body(_navigationBloc),
-          floatingActionButton: _floatingActionButton(_navigationBloc),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          bottomNavigationBar: BTLBBottomNavigationBar()),
-    );
+    NavigationBloc _navigationBloc = NavigationBlocProvider.of(context);
+    return AccountsBlocProvider(
+        accountsBloc: AccountsBloc(),
+        child: Scaffold(
+            appBar: _appBar(_navigationBloc),
+            body: _body(_navigationBloc),
+            floatingActionButton:
+                _floatingActionButton(context, _navigationBloc),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            bottomNavigationBar: BTLBBottomNavigationBar()));
   }
 
   /// This returns an [AppBar] for a given [NavigationBloc].
   Widget _appBar(NavigationBloc bloc) {
     return AppBar(
-      title: StreamBuilder<NavigatablePage>(
-        stream: bloc.selectedNavigatablePage,
+      title: StreamBuilder<int>(
+        stream: bloc.selectedIndex,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
-              return Text(snapshot.data.title);
+              return Text(pages[snapshot.data].title);
             default:
               return Container();
           }
@@ -43,13 +53,13 @@ class HomePage extends StatelessWidget {
 
   /// This returns a body [Widget] for a [NavigationBloc].
   Widget _body(NavigationBloc bloc) {
-    return StreamBuilder<Widget>(
-      stream: bloc.selectedNavigatablePage,
+    return StreamBuilder<int>(
+      stream: bloc.selectedIndex,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
             return Center(
-              child: snapshot.data,
+              child: pages[snapshot.data],
             );
           default:
             return Container();
@@ -59,13 +69,13 @@ class HomePage extends StatelessWidget {
   }
 
   /// Returns a [FloatingActionButton] for a given [NavigationBloc].
-  Widget _floatingActionButton(NavigationBloc bloc) {
-    return StreamBuilder<NavigatablePage>(
-      stream: bloc.selectedNavigatablePage,
+  Widget _floatingActionButton(BuildContext context, NavigationBloc bloc) {
+    return StreamBuilder<int>(
+      stream: bloc.selectedIndex,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
-            return snapshot.data.actionButton;
+            return pages[snapshot.data].actionButton(context);
           default:
             return Container();
         }

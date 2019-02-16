@@ -11,9 +11,6 @@ class SettingsPage extends StatelessWidget with NavigatablePage {
   final String title = 'Settings';
 
   @override
-  Widget get actionButton => Container();
-
-  @override
   Widget build(BuildContext context) {
     return StreamBuilder<Settings>(
       stream: bloc.settings,
