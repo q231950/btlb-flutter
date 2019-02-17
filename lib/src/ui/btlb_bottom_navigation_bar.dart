@@ -19,19 +19,25 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
     NavigationBloc navigationBloc = NavigationBlocProvider.of(context);
-    return StreamBuilder<int>(
-      stream: navigationBloc.selectedIndex,
-      initialData: 0,
-      builder: (context, snapshot) => BottomNavigationBar(
-            currentIndex: snapshot.data,
-            items: items,
-            onTap: (selectedIndex) => _onTabTapped(selectedIndex, context),
-          ),
+    return StreamBuilder<NavigationSelection>(
+      stream: navigationBloc.selection,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return BottomNavigationBar(
+              currentIndex: snapshot.data.index,
+              items: items,
+              onTap: (selectedIndex) => _onTabTapped(selectedIndex, context),
+            );
+          default:
+            return Container();
+        }
+      },
     );
   }
 
   void _onTabTapped(int index, BuildContext context) {
     NavigationBloc navigationBloc = NavigationBlocProvider.of(context);
-    navigationBloc.setSelectedIndex(index);
+    navigationBloc.setSelection(NavigationSelection.values[index]);
   }
 }

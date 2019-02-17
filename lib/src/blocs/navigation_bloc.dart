@@ -1,25 +1,26 @@
 import 'package:rxdart/rxdart.dart';
-import '../mixins/navigatable_page_mixin.dart';
+
+/// The [NavigationSelection] is used to specify the currently selected navigation element
+enum NavigationSelection { Accounts, Settings }
 
 /// The [NavigationBloc] governs the main navigation of the app.
 class NavigationBloc {
-  /// The [NavigationBloc] is initialised with the index of the currently
-  /// selected [NavigatablePage] named [selectedIndex] and a [List<NavigatablePage>]
-  /// of [NavigatablePage] instance available for selection, named [pages].
+  /// The [NavigationBloc] is initialised with the [NavigationSelection] of the currently
+  /// selected item, the [selection].
   NavigationBloc({
-    int selectedIndex,
+    NavigationSelection selection,
   }) {
-    _selectedIndex = BehaviorSubject<int>(seedValue: selectedIndex);
-    setSelectedIndex(selectedIndex);
+    _selection = BehaviorSubject<NavigationSelection>(seedValue: selection);
+    setSelection(selection);
   }
 
-  /// A [BehaviorSubject] of the selected index.
-  static BehaviorSubject<int> _selectedIndex;
+  /// A [BehaviorSubject] of the selection.
+  static BehaviorSubject<NavigationSelection> _selection;
 
-  /// The publicly observable selected index.
-  Observable<int> get selectedIndex => _selectedIndex.distinct();
+  /// The publicly observable selection.
+  Observable<NavigationSelection> get selection => _selection.distinct();
 
-  void setSelectedIndex(int index) {
-    _selectedIndex.add(index);
+  void setSelection(NavigationSelection selection) {
+    _selection.add(selection);
   }
 }

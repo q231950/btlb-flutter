@@ -12,7 +12,8 @@ main() {
   MaterialApp app;
 
   setUp(() {
-    NavigationBloc navigationBloc = NavigationBloc(selectedIndex: 0);
+    NavigationBloc navigationBloc =
+        NavigationBloc(selection: NavigationSelection.Accounts);
 
     app = MaterialApp(
         theme: ThemeData.light(),

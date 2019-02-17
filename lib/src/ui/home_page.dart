@@ -37,12 +37,12 @@ class HomePageState extends State<HomePage> {
   /// This returns an [AppBar] for a given [NavigationBloc].
   Widget _appBar(NavigationBloc bloc) {
     return AppBar(
-      title: StreamBuilder<int>(
-        stream: bloc.selectedIndex,
+      title: StreamBuilder<NavigationSelection>(
+        stream: bloc.selection,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.active:
-              return Text(pages[snapshot.data].title);
+              return Text(pages[snapshot.data.index].title);
             default:
               return Container();
           }
@@ -53,13 +53,13 @@ class HomePageState extends State<HomePage> {
 
   /// This returns a body [Widget] for a [NavigationBloc].
   Widget _body(NavigationBloc bloc) {
-    return StreamBuilder<int>(
-      stream: bloc.selectedIndex,
+    return StreamBuilder<NavigationSelection>(
+      stream: bloc.selection,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
             return Center(
-              child: pages[snapshot.data],
+              child: pages[snapshot.data.index],
             );
           default:
             return Container();
@@ -70,12 +70,12 @@ class HomePageState extends State<HomePage> {
 
   /// Returns a [FloatingActionButton] for a given [NavigationBloc].
   Widget _floatingActionButton(BuildContext context, NavigationBloc bloc) {
-    return StreamBuilder<int>(
-      stream: bloc.selectedIndex,
+    return StreamBuilder<NavigationSelection>(
+      stream: bloc.selection,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
-            return pages[snapshot.data].actionButton(context);
+            return pages[snapshot.data.index].actionButton(context);
           default:
             return Container();
         }

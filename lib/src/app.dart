@@ -16,7 +16,8 @@ class App extends StatelessWidget {
 
   /// This is the [HomePage] of the app.
   Widget _homePage() {
-    NavigationBloc navigationBloc = NavigationBloc(selectedIndex: 0);
+    NavigationBloc navigationBloc =
+        NavigationBloc(selection: NavigationSelection.Accounts);
 
     return NavigationBlocProvider(
         navigationBloc: navigationBloc, child: HomePage());
