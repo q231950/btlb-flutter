@@ -10,11 +10,10 @@ class AccountsBlocMock extends Mock implements AccountsBloc {}
 
 main() {
   MaterialApp app;
-  AccountsBlocMock accountsBlocMock;
 
   setUp(() {
-    accountsBlocMock = AccountsBlocMock();
     NavigationBloc navigationBloc = NavigationBloc(selectedIndex: 0);
+
     app = MaterialApp(
         theme: ThemeData.light(),
         home: NavigationBlocProvider(
@@ -29,15 +28,11 @@ main() {
       await tester.pumpWidget(app);
       await tester.pump(Duration.zero);
 
-      when(accountsBlocMock.addAccount()).thenAnswer((_) {
-        return Future.value();
-      });
-
       await tester.tap(find.widgetWithIcon(FloatingActionButton, Icons.add));
-      await tester.pump(Duration.zero);
 
-      verify(accountsBlocMock.addAccount()).called(1);
-    }, skip: true);
+      await tester.pump(Duration.zero);
+      expect(find.text('entry 0'), findsOneWidget);
+    });
 
     testWidgets('has floating action button', (WidgetTester tester) async {
       await tester.pumpWidget(app);

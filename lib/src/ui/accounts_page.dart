@@ -38,14 +38,16 @@ class AccountsPageState extends State<AccountsPage> {
           case ConnectionState.active:
             return ListView.builder(
               itemCount: snapshot.data,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(title: Text("entry $index"));
-              },
+              itemBuilder: _itemBuilder,
             );
           default:
             return Container();
         }
       },
     );
+  }
+
+  Widget _itemBuilder(BuildContext context, int index) {
+    return ListTile(title: Text("entry $index"));
   }
 }
