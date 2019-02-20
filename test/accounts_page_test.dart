@@ -1,30 +1,19 @@
-import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/app.dart';
 import 'package:btlb_flutter/src/blocs/navigation_bloc.dart';
 import 'package:btlb_flutter/src/ui/home_page.dart';
 import 'package:btlb_flutter/src/ui/navigation_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-
-class AccountsBlocMock extends Mock implements AccountsBloc {}
 
 main() {
-  MaterialApp app;
+  App app;
 
   setUp(() {
-    NavigationBloc navigationBloc =
-        NavigationBloc(selection: NavigationSelection.Accounts);
-
-    app = MaterialApp(
-        theme: ThemeData.light(),
-        home: NavigationBlocProvider(
-          navigationBloc: navigationBloc,
-          child: HomePage(),
-        ));
+    app = App();
   });
 
   group('Accounts page', () {
-    testWidgets('adds an account when action button is tapped',
+    testWidgets('show account creation page when action button is tapped',
         (WidgetTester tester) async {
       await tester.pumpWidget(app);
       await tester.pump(Duration.zero);
@@ -32,7 +21,7 @@ main() {
       await tester.tap(find.widgetWithIcon(FloatingActionButton, Icons.add));
 
       await tester.pump(Duration.zero);
-      expect(find.text('entry 0'), findsOneWidget);
+      expect(find.text('New Account'), findsOneWidget);
     });
 
     testWidgets('has floating action button', (WidgetTester tester) async {

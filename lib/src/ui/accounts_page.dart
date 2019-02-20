@@ -1,5 +1,6 @@
 import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
 import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
+import 'package:btlb_flutter/src/ui/create_account_page.dart';
 import 'package:flutter/widgets.dart';
 import '../mixins/navigatable_page_mixin.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +14,13 @@ class AccountsPage extends StatefulWidget with NavigatablePage {
   /// The action button of the [AccountsPage] adds accounts to the [AccountsBloc].
   @override
   Widget actionButton(BuildContext context) {
-    AccountsBloc bloc = AccountsBlocProvider.of(context);
     return FloatingActionButton(
       onPressed: () {
-        bloc.addAccount();
+        Navigator.of(context).push(new MaterialPageRoute<int>(
+            builder: (BuildContext context) {
+              return new CreateAccountPage();
+            },
+            fullscreenDialog: true));
       },
       child: Icon(Icons.add),
     );
