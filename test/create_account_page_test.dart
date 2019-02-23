@@ -9,7 +9,7 @@ main() {
         home: CreateAccountPage(),
       );
       await tester.pumpWidget(accountPage);
-      await tester.pump(Duration.zero);
+      await tester.pump();
 
       expect(find.text('New Account'), findsOneWidget);
     });
