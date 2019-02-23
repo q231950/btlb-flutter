@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'generic_bloc_provider.dart';
+import '../blocs/generic_bloc_provider.dart';
 import '../blocs/navigation_bloc.dart';
 
 class BTLBBottomNavigationBar extends StatefulWidget {
