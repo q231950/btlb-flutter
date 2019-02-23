@@ -1,12 +1,11 @@
 import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
-import 'package:btlb_flutter/src/blocs/settings_bloc.dart';
 import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
 import 'package:btlb_flutter/src/ui/accounts_page.dart';
 import 'package:btlb_flutter/src/ui/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
-import 'navigation_bloc_provider.dart';
+import 'generic_bloc_provider.dart';
 import '../mixins/navigatable_page_mixin.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,21 +14,21 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  HomePageState()
-      : pages = [AccountsPage(), SettingsPage(bloc: SettingsBloc())];
+  HomePageState() : pages = [AccountsPage(), SettingsPage()];
 
   final List<NavigatablePage> pages;
 
   @override
   Widget build(BuildContext context) {
-    NavigationBloc _navigationBloc = NavigationBlocProvider.of(context);
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
     return AccountsBlocProvider(
         accountsBloc: AccountsBloc(),
         child: Scaffold(
-            appBar: _appBar(_navigationBloc),
-            body: _body(_navigationBloc),
+            appBar: _appBar(navigationBloc),
+            body: _body(navigationBloc),
             floatingActionButton:
-                _floatingActionButton(context, _navigationBloc),
+                _floatingActionButton(context, navigationBloc),
             floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
             bottomNavigationBar: BTLBBottomNavigationBar()));
   }

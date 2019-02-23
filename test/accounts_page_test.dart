@@ -1,7 +1,4 @@
 import 'package:btlb_flutter/src/app.dart';
-import 'package:btlb_flutter/src/blocs/navigation_bloc.dart';
-import 'package:btlb_flutter/src/ui/home_page.dart';
-import 'package:btlb_flutter/src/ui/navigation_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

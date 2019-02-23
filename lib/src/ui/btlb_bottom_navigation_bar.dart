@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'navigation_bloc_provider.dart';
+import 'generic_bloc_provider.dart';
 import '../blocs/navigation_bloc.dart';
 
 class BTLBBottomNavigationBar extends StatefulWidget {
@@ -18,7 +18,8 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    NavigationBloc navigationBloc = NavigationBlocProvider.of(context);
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
     return StreamBuilder<NavigationSelection>(
       stream: navigationBloc.selection,
       builder: (context, snapshot) {
@@ -37,7 +38,8 @@ class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
   }
 
   void _onTabTapped(int index, BuildContext context) {
-    NavigationBloc navigationBloc = NavigationBlocProvider.of(context);
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
     navigationBloc.setSelection(NavigationSelection.values[index]);
   }
 }

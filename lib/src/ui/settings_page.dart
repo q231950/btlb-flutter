@@ -1,3 +1,4 @@
+import 'package:btlb_flutter/src/blocs/generic_bloc_provider.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import '../mixins/navigatable_page_mixin.dart';
@@ -5,20 +6,18 @@ import '../blocs/settings_bloc.dart';
 import '../models/settings.dart';
 
 class SettingsPage extends StatelessWidget with NavigatablePage {
-  SettingsPage({this.bloc}) : super();
-
-  final SettingsBloc bloc;
   final String title = 'Settings';
 
   @override
   Widget build(BuildContext context) {
+    SettingsBloc bloc = GenericBlocProvider.of<SettingsBloc>(context);
     return StreamBuilder<Settings>(
       stream: bloc.settings,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.active:
             return Column(
-              children: <Widget>[themeWidget(snapshot.data)],
+              children: <Widget>[themeWidget(snapshot.data, context)],
             );
           default:
             return Container();
@@ -27,7 +26,7 @@ class SettingsPage extends StatelessWidget with NavigatablePage {
     );
   }
 
-  Widget themeWidget(Settings settings) {
+  Widget themeWidget(Settings settings, BuildContext context) {
     return Column(
       children: <Widget>[
         Row(
@@ -35,7 +34,8 @@ class SettingsPage extends StatelessWidget with NavigatablePage {
             Radio(
               value: ThemeSelection.light,
               groupValue: settings.themeSelection,
-              onChanged: (themeSelection) => didSelectTheme(themeSelection),
+              onChanged: (themeSelection) =>
+                  didSelectTheme(themeSelection, context),
             ),
             Text('Light Theme')
           ],
@@ -45,7 +45,8 @@ class SettingsPage extends StatelessWidget with NavigatablePage {
             Radio(
               value: ThemeSelection.dark,
               groupValue: settings.themeSelection,
-              onChanged: (themeSelection) => didSelectTheme(themeSelection),
+              onChanged: (themeSelection) =>
+                  didSelectTheme(themeSelection, context),
             ),
             Text('Dark Theme'),
           ],
@@ -54,7 +55,8 @@ class SettingsPage extends StatelessWidget with NavigatablePage {
     );
   }
 
-  void didSelectTheme(ThemeSelection selection) {
+  void didSelectTheme(ThemeSelection selection, BuildContext context) {
+    SettingsBloc bloc = GenericBlocProvider.of<SettingsBloc>(context);
     bloc.selectTheme(selection);
   }
 }
