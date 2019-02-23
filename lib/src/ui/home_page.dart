@@ -5,7 +5,7 @@ import 'package:btlb_flutter/src/ui/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
-import 'generic_bloc_provider.dart';
+import '../blocs/generic_bloc_provider.dart';
 import '../mixins/navigatable_page_mixin.dart';
 
 class HomePage extends StatefulWidget {
