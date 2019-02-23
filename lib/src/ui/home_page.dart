@@ -1,77 +1,84 @@
+import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
+import 'package:btlb_flutter/src/ui/accounts_page.dart';
+import 'package:btlb_flutter/src/ui/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'btlb_bottom_navigation_bar.dart';
 import '../blocs/navigation_bloc.dart';
-import '../blocs/settings_bloc.dart';
-import 'navigation_provider.dart';
-import 'accounts_page.dart';
-import 'account_page.dart';
-import 'settings_page.dart';
-import '../mixins/titled_page_mixin.dart';
+import 'generic_bloc_provider.dart';
+import '../mixins/navigatable_page_mixin.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  State<StatefulWidget> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  static final widgets = <TitledPage>[
-    AccountsPage(),
-    SettingsPage(bloc: SettingsBloc())
-  ];
-  static final NavigationBloc _navigationBloc =
-      NavigationBloc(selectedIndex: 0, widgets: widgets);
+class HomePageState extends State<HomePage> {
+  HomePageState() : pages = [AccountsPage(), SettingsPage()];
+
+  final List<NavigatablePage> pages;
 
   @override
   Widget build(BuildContext context) {
-    return NavigationProvider(
-        navigationBloc: _navigationBloc,
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
+    return AccountsBlocProvider(
+        accountsBloc: AccountsBloc(),
         child: Scaffold(
-          appBar: AppBar(
-            title: StreamBuilder<TitledPage>(
-              stream: _navigationBloc.selectedWidget,
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.active:
-                    return Text(snapshot.data.title);
-                  default:
-                    return Container();
-                }
-              },
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.person_add),
-                onPressed: () {
-                  Navigator.of(context).pushNamed(AccountPage.routeName);
-                },
-              )
-            ],
-          ),
-          body: StreamBuilder<TitledPage>(
-            stream: _navigationBloc.selectedWidget,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.active:
-                  return Center(
-                    child: snapshot.data,
-                  );
-                default:
-                  return Container();
-              }
-            },
-          ),
-          bottomNavigationBar: StreamBuilder<int>(
-            stream: _navigationBloc.selectedIndex,
-            builder: (context, snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.active:
-                  return BTLBBottomNavigationBar();
-                default:
-                  return Container();
-              }
-            },
-          ),
-        ));
+            appBar: _appBar(navigationBloc),
+            body: _body(navigationBloc),
+            floatingActionButton:
+                _floatingActionButton(context, navigationBloc),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            bottomNavigationBar: BTLBBottomNavigationBar()));
+  }
+
+  /// This returns an [AppBar] for a given [NavigationBloc].
+  Widget _appBar(NavigationBloc bloc) {
+    return AppBar(
+      title: StreamBuilder<NavigationSelection>(
+        stream: bloc.selection,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.active:
+              return Text(pages[snapshot.data.index].title);
+            default:
+              return Container();
+          }
+        },
+      ),
+    );
+  }
+
+  /// This returns a body [Widget] for a [NavigationBloc].
+  Widget _body(NavigationBloc bloc) {
+    return StreamBuilder<NavigationSelection>(
+      stream: bloc.selection,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return Center(
+              child: pages[snapshot.data.index],
+            );
+          default:
+            return Container();
+        }
+      },
+    );
+  }
+
+  /// Returns a [FloatingActionButton] for a given [NavigationBloc].
+  Widget _floatingActionButton(BuildContext context, NavigationBloc bloc) {
+    return StreamBuilder<NavigationSelection>(
+      stream: bloc.selection,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return pages[snapshot.data.index].actionButton(context);
+          default:
+            return Container();
+        }
+      },
+    );
   }
 }

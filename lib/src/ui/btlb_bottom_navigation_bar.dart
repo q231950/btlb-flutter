@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'navigation_provider.dart';
+import 'generic_bloc_provider.dart';
 import '../blocs/navigation_bloc.dart';
 
 class BTLBBottomNavigationBar extends StatefulWidget {
@@ -12,31 +12,34 @@ class BTLBBottomNavigationBar extends StatefulWidget {
 class _BTLBBottomNavigationBarState extends State<BTLBBottomNavigationBar> {
   final List<BottomNavigationBarItem> items = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
-      title: Text('Accounts'),
-      icon: Icon(Icons.supervised_user_circle),
-    ),
-    BottomNavigationBarItem(
-      title: Text('Settings'),
-      icon: Icon(Icons.settings),
-    ),
+        title: Text('Accounts'), icon: Icon(Icons.supervised_user_circle)),
+    BottomNavigationBarItem(title: Text('Settings'), icon: Icon(Icons.settings))
   ];
 
   @override
   Widget build(BuildContext context) {
-    NavigationBloc navigationBloc = NavigationProvider.of(context);
-    return StreamBuilder<int>(
-      stream: navigationBloc.selectedIndex,
-      initialData: 0,
-      builder: (context, snapshot) => BottomNavigationBar(
-            currentIndex: snapshot.data,
-            items: items,
-            onTap: (selectedIndex) => _onTabTapped(selectedIndex, context),
-          ),
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
+    return StreamBuilder<NavigationSelection>(
+      stream: navigationBloc.selection,
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            return BottomNavigationBar(
+              currentIndex: snapshot.data.index,
+              items: items,
+              onTap: (selectedIndex) => _onTabTapped(selectedIndex, context),
+            );
+          default:
+            return Container();
+        }
+      },
     );
   }
 
   void _onTabTapped(int index, BuildContext context) {
-    NavigationBloc navigationBloc = NavigationProvider.of(context);
-    navigationBloc.setSelectedIndex(index);
+    NavigationBloc navigationBloc =
+        GenericBlocProvider.of<NavigationBloc>(context);
+    navigationBloc.setSelection(NavigationSelection.values[index]);
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AccountPage extends StatelessWidget {
   AccountPage();
 
-  static const routeName = "/account";
+  static const String routeName = "/account";
 
   @override
   Widget build(BuildContext context) {
