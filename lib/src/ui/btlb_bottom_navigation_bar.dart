@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../blocs/generic_bloc_provider.dart';
 import '../blocs/navigation_bloc.dart';
 
+/// The [BTLBBottomNavigationBar] displays the tabs of the main navigation of the application.
 class BTLBBottomNavigationBar extends StatefulWidget {
   @override
   _BTLBBottomNavigationBarState createState() =>

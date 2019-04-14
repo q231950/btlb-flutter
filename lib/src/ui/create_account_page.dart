@@ -1,3 +1,5 @@
+import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/blocs/generic_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -38,6 +40,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     var valid = form.validate();
     if (valid) {
       print("save...");
+      var accountsBloc = GenericBlocProvider.of<AccountsBloc>(context);
+      accountsBloc.addAccount();
     } else {
       print("fill all fields");
     }
@@ -105,8 +109,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   String _filledFormFieldValidator(String s) {
     if (s != null) {
-      return s.length > 0 ? null : "asd";
+      return s.length > 0 ? null : "this field is required";
     }
-    return "this field is required";
+    return null;
   }
 }

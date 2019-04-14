@@ -22,6 +22,9 @@ dependencies:
 
   rxdart: ^0.20.0
 
+  btlb_network_package: 
+    path: ../btlb_network_package
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

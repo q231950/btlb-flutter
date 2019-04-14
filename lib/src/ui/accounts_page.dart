@@ -1,4 +1,5 @@
 import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/blocs/generic_bloc_provider.dart';
 import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
 import 'package:btlb_flutter/src/ui/create_account_page.dart';
 import 'package:flutter/widgets.dart';
@@ -16,9 +17,13 @@ class AccountsPage extends StatefulWidget with NavigatablePage {
   Widget actionButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.of(context).push(new MaterialPageRoute<int>(
+        Navigator.of(context).push(MaterialPageRoute<int>(
             builder: (BuildContext context) {
-              return new CreateAccountPage();
+              var accountsBloc = GenericBlocProvider.of<AccountsBloc>(context);
+              return GenericBlocProvider(
+                navigationBloc: accountsBloc,
+                child: CreateAccountPage(),
+              );
             },
             fullscreenDialog: true));
       },
