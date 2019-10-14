@@ -38,6 +38,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     var valid = form.validate();
     if (valid) {
       print("save...");
+      Navigator.of(context).maybePop();
     } else {
       print("fill all fields");
     }
@@ -68,9 +69,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           inputFormatters: <TextInputFormatter>[
             BlacklistingTextInputFormatter.singleLineFormatter
           ],
+          validator: _filledFormFieldValidator,
         );
       },
-      validator: _filledFormFieldValidator,
     );
   }
 
@@ -105,7 +106,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   String _filledFormFieldValidator(String s) {
     if (s != null) {
-      return s.length > 0 ? null : "asd";
+      return s.length > 0 ? null : "this field is required";
     }
     return "this field is required";
   }
