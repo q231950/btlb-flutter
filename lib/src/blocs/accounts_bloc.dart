@@ -16,8 +16,8 @@ class AccountsBloc {
   Observable<int> get count => _count.distinct();
 
   /// Add an account
-  void addAccount() {
-    Account account = Account(name: "abc");
+  void addAccount(String identifier, String password) {
+    Account account = Account(identifier: identifier, password: password);
     _accounts.add(account);
     _count.add(_count.value + 1);
   }

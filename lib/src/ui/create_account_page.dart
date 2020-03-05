@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
 
 class CreateAccountPage extends StatefulWidget {
   @override
@@ -38,6 +40,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     var valid = form.validate();
     if (valid) {
       print("save...");
+      AccountsBloc bloc = AccountsBlocProvider.of(context);
+      // bloc.addAccount(_accountFormField(), password)
       Navigator.of(context).maybePop();
     } else {
       print("fill all fields");
@@ -53,11 +57,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     );
   }
 
-  FormField _accountFormField() {
-    return FormField<String>(
-      enabled: true,
-      builder: (state) {
-        return TextFormField(
+  TextFormField _accountFormField() {
+    return TextFormField(
           decoration: const InputDecoration(
             icon: Icon(Icons.account_box),
             labelText: 'Account',
@@ -71,8 +72,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           ],
           validator: _filledFormFieldValidator,
         );
-      },
-    );
   }
 
   FormField _passwordFormField() {

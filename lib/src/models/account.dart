@@ -1,7 +1,11 @@
 class Account {
-  Account({String name}) : _name = name;
+  Account({String identifier, String password}) : 
+  _identifier = identifier,
+  _password = password;
 
-  final String _name;
+  final String _identifier;
+  String get identifier => _identifier;
 
-  String get name => _name;
+  final String _password;
+  String get password => _password;
 }
