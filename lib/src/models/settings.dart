@@ -4,5 +4,6 @@ class Settings {
   Settings() {
     themeSelection = ThemeSelection.light;
   }
+
   ThemeSelection themeSelection;
 }

@@ -1,5 +1,5 @@
 import 'package:btlb_flutter/src/models/account.dart';
-import 'package:test_api/test_api.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 main() {
   group('The account model', () {

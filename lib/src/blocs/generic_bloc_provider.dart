@@ -1,6 +1,5 @@
-import 'package:flutter/widgets.dart';
-
-Type _typeOf<T>() => T;
+import 'package:flutter/widgets.dart'
+    show BuildContext, InheritedWidget, Key, Widget;
 
 class GenericBlocProvider<T> extends InheritedWidget {
   final T navigationBloc;
@@ -16,9 +15,9 @@ class GenericBlocProvider<T> extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static T of<T>(BuildContext context) {
-    final type = _typeOf<GenericBlocProvider<T>>();
-    GenericBlocProvider<T> blocProvider =
-        context.ancestorInheritedElementForWidgetOfExactType(type)?.widget;
+    GenericBlocProvider<T> blocProvider = context
+        .getElementForInheritedWidgetOfExactType<GenericBlocProvider<T>>()
+        ?.widget;
     return blocProvider?.navigationBloc;
   }
 }

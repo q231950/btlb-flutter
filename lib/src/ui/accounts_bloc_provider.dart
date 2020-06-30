@@ -12,8 +12,8 @@ class AccountsBlocProvider extends InheritedWidget {
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   static AccountsBloc of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(AccountsBlocProvider)
-            as AccountsBlocProvider)
+    return context
+        .dependOnInheritedWidgetOfExactType<AccountsBlocProvider>()
         .accountsBloc;
   }
 }
