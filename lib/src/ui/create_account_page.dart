@@ -1,10 +1,18 @@
+import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class CreateAccountPage extends StatefulWidget {
+  AccountsBloc _accountsBloc;
+
+  CreateAccountPage(AccountsBloc accountsBloc) {
+    this._accountsBloc = accountsBloc;
+  }
+
   @override
-  State<StatefulWidget> createState() => _CreateAccountPageState();
+  State<StatefulWidget> createState() => _CreateAccountPageState(_accountsBloc);
 
   static const String routeName = "create_account";
 }
@@ -12,6 +20,11 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   bool _obscureText = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  AccountsBloc _accountsBloc;
+
+  _CreateAccountPageState(AccountsBloc accountsBloc) {
+    this._accountsBloc = accountsBloc;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +50,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     final FormState form = _formKey.currentState;
     var valid = form.validate();
     if (valid) {
+      this._accountsBloc.addAccount("abc");
       print("save...");
+      this._accountsBloc.loadAccounts();
       Navigator.of(context).maybePop();
     } else {
       print("fill all fields");

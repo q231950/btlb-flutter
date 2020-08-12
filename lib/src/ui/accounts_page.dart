@@ -14,11 +14,12 @@ class AccountsPage extends StatefulWidget with NavigatablePage {
   /// The action button of the [AccountsPage] adds accounts to the [AccountsBloc].
   @override
   Widget actionButton(BuildContext context) {
+    AccountsBloc accountsBloc = AccountsBlocProvider.of(context);
     return FloatingActionButton(
       onPressed: () {
         Navigator.of(context).push(new MaterialPageRoute<int>(
             builder: (BuildContext context) {
-              return new CreateAccountPage();
+              return CreateAccountPage(accountsBloc);
             },
             fullscreenDialog: true));
       },
@@ -34,21 +35,19 @@ class AccountsPageState extends State<AccountsPage> {
   @override
   Widget build(BuildContext context) {
     AccountsBloc bloc = AccountsBlocProvider.of(context);
-
     return StreamBuilder<int>(
-      stream: bloc.count,
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.active:
-            return ListView.builder(
-              itemCount: snapshot.data,
-              itemBuilder: _itemBuilder,
-            );
-          default:
-            return Container();
-        }
-      },
-    );
+        stream: bloc.count,
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.active:
+              return ListView.builder(
+                itemCount: snapshot.data,
+                itemBuilder: _itemBuilder,
+              );
+            default:
+              return Container();
+          }
+        });
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
