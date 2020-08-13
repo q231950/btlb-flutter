@@ -1,6 +1,7 @@
 import 'package:btlb_flutter/src/models/account.dart';
+import 'package:hive/hive.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'dart:async';
 
 /// The accounts bloc offers facilities to manage accounts.
@@ -26,8 +27,8 @@ class AccountsBloc {
   void addAccount(String name) async {
     Account account = Account(name: name);
 
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('account', name);
+    var box = await Hive.openBox("accountsBox");
+    box.put('account', name);
 
     accounts.add(account);
     _count.add(_count.value + 1);
@@ -36,7 +37,9 @@ class AccountsBloc {
   }
 
   Future<String> loadAccounts() async {
-    return SharedPreferences.getInstance()
-        .then((value) => value.getString('account') ?? "xxx");
+    return Hive.openBox("accountsBox")
+        .then((value) => value.get('account') ?? "xxx");
   }
 }
+
+class AccountsModel extends HiveObject {}
