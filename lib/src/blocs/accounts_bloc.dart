@@ -7,14 +7,19 @@ import 'dart:async';
 /// You can add, retrieve and delete accounts.
 class AccountsBloc {
   AccountsBloc()
-      : _accounts = BehaviorSubject<Account>(),
-        _count = BehaviorSubject<int>(seedValue: 0);
+      : accounts = List<Account>(),
+        _count = BehaviorSubject<int>(seedValue: 0) {
+    loadAccounts().then((value) {
+      Account account = Account(name: value);
+      accounts.add(account);
+      _count.add(_count.value + 1);
+    });
+  }
 
-  final BehaviorSubject<Account> _accounts;
+  final List<Account> accounts;
   final BehaviorSubject<int> _count;
 
   /// The [AccountsBloc] has accounts which can be observed
-  Observable<Account> get accounts => _accounts;
   Observable<int> get count => _count;
 
   /// Add an account
@@ -24,7 +29,7 @@ class AccountsBloc {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('account', name);
 
-    _accounts.add(account);
+    accounts.add(account);
     _count.add(_count.value + 1);
 
     print("add account");

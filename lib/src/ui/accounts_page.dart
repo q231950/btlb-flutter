@@ -1,4 +1,5 @@
 import 'package:btlb_flutter/src/blocs/accounts_bloc.dart';
+import 'package:btlb_flutter/src/models/account.dart';
 import 'package:btlb_flutter/src/ui/accounts_bloc_provider.dart';
 import 'package:btlb_flutter/src/ui/create_account_page.dart';
 import 'package:flutter/widgets.dart';
@@ -51,6 +52,9 @@ class AccountsPageState extends State<AccountsPage> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    return ListTile(title: Text("entry $index"));
+    AccountsBloc bloc = AccountsBlocProvider.of(context);
+    Account account = bloc.accounts[index];
+    String name = account.name;
+    return ListTile(title: Text("$index $name"));
   }
 }

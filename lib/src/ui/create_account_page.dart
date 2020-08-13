@@ -20,6 +20,7 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   bool _obscureText = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final textEditingController = TextEditingController();
   AccountsBloc _accountsBloc;
 
   _CreateAccountPageState(AccountsBloc accountsBloc) {
@@ -28,7 +29,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    var form = _form();
+    var form = _form(textEditingController);
     return Scaffold(
       appBar: AppBar(
         title: Text("New Account"),
@@ -50,7 +51,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     final FormState form = _formKey.currentState;
     var valid = form.validate();
     if (valid) {
-      this._accountsBloc.addAccount("abc");
+      _accountsBloc.addAccount(textEditingController.text);
       print("save...");
       this._accountsBloc.loadAccounts();
       Navigator.of(context).maybePop();
@@ -59,20 +60,24 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     }
   }
 
-  Form _form() {
+  Form _form(TextEditingController textEditingController) {
     return Form(
       key: _formKey,
       child: Column(
-        children: <Widget>[_accountFormField(), _passwordFormField()],
+        children: <Widget>[
+          _accountFormField(textEditingController),
+          _passwordFormField()
+        ],
       ),
     );
   }
 
-  FormField _accountFormField() {
+  FormField _accountFormField(TextEditingController textEditingController) {
     return FormField<String>(
       enabled: true,
       builder: (state) {
         return TextFormField(
+          controller: textEditingController,
           decoration: const InputDecoration(
             icon: Icon(Icons.account_box),
             labelText: 'Account',
