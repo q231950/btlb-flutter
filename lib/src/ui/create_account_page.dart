@@ -53,7 +53,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     if (valid) {
       _accountsBloc.addAccount(textEditingController.text);
       print("save...");
-      this._accountsBloc.loadAccounts();
       Navigator.of(context).maybePop();
     } else {
       print("fill all fields");

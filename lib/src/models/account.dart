@@ -1,7 +1,11 @@
-class Account {
-  Account({String name}) : _name = name;
+import 'package:hive/hive.dart';
 
-  final String _name;
+part 'account.g.dart';
 
-  String get name => _name;
+@HiveType(typeId: 0)
+class Account extends HiveObject {
+  @HiveField(0)
+  String name;
+
+  Account(this.name);
 }

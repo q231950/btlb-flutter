@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 main() {
   group('The account model', () {
     test('initializes its name', () {
-      Account account = Account(name: 'abc');
+      Account account = Account('abc');
       expect(account.name, equals('abc'));
     });
   });

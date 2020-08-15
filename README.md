@@ -6,3 +6,6 @@
 
 `flutter test`
 
+## Generate Hive Adapters
+flutter pub run build_runner watch --delete-conflicting-outputs
+
